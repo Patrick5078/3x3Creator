@@ -3,6 +3,7 @@
 const CropModal = {
     modal: null,
     cropImage: null,
+    aspectLockToggle: null,
     cropper: null,
     currentSlotIndex: null,
     originalImageUrl: null,
@@ -10,11 +11,13 @@ const CropModal = {
     init() {
         this.modal = document.getElementById('crop-modal');
         this.cropImage = document.getElementById('crop-image');
+        this.aspectLockToggle = document.getElementById('crop-aspect-lock');
 
         // Bind modal controls
         document.getElementById('crop-cancel').addEventListener('click', () => this.close());
         document.getElementById('crop-reset').addEventListener('click', () => this.reset());
         document.getElementById('crop-confirm').addEventListener('click', () => this.confirm());
+        this.aspectLockToggle.addEventListener('change', () => this.applyAspectRatio());
 
         // Close on backdrop click
         this.modal.addEventListener('click', (e) => {
@@ -51,7 +54,7 @@ const CropModal = {
         }
 
         this.cropper = new Cropper(this.cropImage, {
-            aspectRatio: 1,
+            aspectRatio: this.getAspectRatio(),
             viewMode: 1,
             dragMode: 'move',
             autoCropArea: 1,
@@ -68,10 +71,23 @@ const CropModal = {
         });
     },
 
+    // Get aspect ratio based on toggle state
+    getAspectRatio() {
+        return this.aspectLockToggle && this.aspectLockToggle.checked ? 1 : NaN;
+    },
+
+    // Apply aspect ratio to the existing cropper instance
+    applyAspectRatio() {
+        if (this.cropper) {
+            this.cropper.setAspectRatio(this.getAspectRatio());
+        }
+    },
+
     // Reset crop to initial state
     reset() {
         if (this.cropper) {
             this.cropper.reset();
+            this.applyAspectRatio();
         }
     },
 

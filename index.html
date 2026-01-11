@@ -72,8 +72,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="crop-reset" class="btn btn-secondary">Reset</button>
-                <button id="crop-confirm" class="btn btn-primary">Apply</button>
+                <label class="crop-toggle">
+                    <input type="checkbox" id="crop-aspect-lock" checked>
+                    <span>Lock aspect ratio</span>
+                </label>
+                <div class="modal-actions">
+                    <button id="crop-reset" class="btn btn-secondary">Reset</button>
+                    <button id="crop-confirm" class="btn btn-primary">Apply</button>
+                </div>
             </div>
         </div>
     </div>
